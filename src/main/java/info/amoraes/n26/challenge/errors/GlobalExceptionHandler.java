@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(TransactionTooOldException.class)
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void handleTransactionTooOld() {
-        // nothing to do, just set the expected status code
-    }
+  @ExceptionHandler(TransactionTooOldException.class)
+  @ResponseStatus(value = HttpStatus.NO_CONTENT)
+  public void handleTransactionTooOld() {
+    // nothing to do, just set the expected status code
+  }
 }

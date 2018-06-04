@@ -10,13 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface TransactionController {
 
-    @PostMapping(
-            consumes = MediaType.APPLICATION_JSON_VALUE
-    )
-    ResponseEntity<Void> createTransaction(@RequestBody Transaction newTransaction);
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+  ResponseEntity<Void> createTransaction(@RequestBody Transaction newTransaction);
 
-    @GetMapping(
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    Summary getSummary();
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  Summary getSummary();
 }

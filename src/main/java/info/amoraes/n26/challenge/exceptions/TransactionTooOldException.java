@@ -6,9 +6,10 @@ import lombok.Getter;
 @Getter
 public class TransactionTooOldException extends RuntimeException {
 
-    public TransactionTooOldException(Transaction transaction) {
-        super(String.format("Transaction of %f at %d is too old",
-                transaction.getAmount(),
-                transaction.getTimestamp()));
-    }
+  public TransactionTooOldException(Transaction transaction) {
+    super(
+        String.format(
+            "Transaction of %f at %d is too old",
+            transaction.getAmount(), transaction.getTimestamp()));
+  }
 }

@@ -29,3 +29,31 @@ dependencies {
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+
+// google formatter tasks
+configurations {
+	format
+}
+
+dependencies {
+	format('com.google.googlejavaformat:google-java-format:1.4')
+}
+
+task downloadFormat(type: Copy) {
+	from configurations.format
+	into "$buildDir/format"
+}
+
+task runFormat(type: JavaExec) {
+	def mainJavaFiles = sourceSets.main.allJava.files
+	mainJavaFiles.removeIf { file -> file.name.endsWith('module-info.java') }
+
+	classpath = fileTree(dir: "$buildDir/format", include: '*.jar')
+
+	main 'com.google.googlejavaformat.java.Main'
+	args '--replace'
+	args mainJavaFiles
+	args sourceSets.test.allJava.files
+}
+runFormat.dependsOn downloadFormat
