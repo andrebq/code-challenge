@@ -9,9 +9,9 @@ import java.net.URI;
 @Component
 public class ResourceURIBuilderImpl implements ResourceURIBuilder {
     @Override
-    public URI self() {
+    public URI statistics() {
         return ServletUriComponentsBuilder
-                .fromCurrentRequest().path("/")
+                .fromCurrentRequest().path("/../statistics")
                 .buildAndExpand().toUri();
     }
 }

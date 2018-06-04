@@ -4,8 +4,8 @@ import java.net.URI;
 
 public interface ResourceURIBuilder {
     /**
-     * self returns the current URI
+     * statistics returns the current URI
      * @return
      */
-    URI self();
+    URI statistics();
 }

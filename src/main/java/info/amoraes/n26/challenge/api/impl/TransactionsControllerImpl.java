@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.time.OffsetDateTime;
 
-@RestController(value = "/")
+@RestController()
 public class TransactionsControllerImpl implements TransactionController {
 
     private final TransactionService transactionService;
@@ -30,14 +30,16 @@ public class TransactionsControllerImpl implements TransactionController {
     }
 
     @PostMapping(
+            path = "/transactions",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Void> createTransaction(@Valid @RequestBody Transaction newTransaction) {
         this.transactionService.addTransaction(OffsetDateTime.now().toInstant().toEpochMilli(), newTransaction);
-        return ResponseEntity.created(resourceURIBuilder.self()).build();
+        return ResponseEntity.created(resourceURIBuilder.statistics()).build();
     }
 
     @GetMapping(
+            path="/statistics",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public Summary getSummary() {

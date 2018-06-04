@@ -16,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.OffsetDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -35,18 +37,22 @@ public class TransactionControllerIntegrationTest {
     @Test
     public void testCanCreateTransaction() throws Exception {
         final Long now = OffsetDateTime.now().toInstant().toEpochMilli();
-        mvc.perform(post("/")
+        mvc.perform(post("/transactions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                         objectMapper.writeValueAsString(Transaction.builder().amount(1D).timestamp(now).build())))
                 .andExpect(status().isCreated());
+
+        mvc.perform(get("/statistics"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.count").isNumber());
     }
 
     @Test
     public void testCannotCreateOldTransactions() throws Exception {
         final Long now = OffsetDateTime.now().toInstant().toEpochMilli()
                 - (60 * 1000 + 1);
-        mvc.perform(post("/")
+        mvc.perform(post("/transactions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                         objectMapper.writeValueAsString(Transaction.builder().amount(1D).timestamp(now).build())))

@@ -5,7 +5,6 @@ import info.amoraes.n26.challenge.models.Summary;
 import info.amoraes.n26.challenge.models.Transaction;
 import info.amoraes.n26.challenge.repository.SummaryRepository;
 import info.amoraes.n26.challenge.services.TransactionService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,6 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-@Slf4j
 public class TransactionServiceImpl implements TransactionService {
 
     private static final Long MAX_AGE = 60 * 1000L;
@@ -44,7 +42,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public void addTransaction(Long now, Transaction t) {
         if (t.getTimestamp() < (now - MAX_AGE)) {
-            log.info("Now is {} / Transaction is {} / delta is {}", now, t.getTimestamp(), now - t.getTimestamp());
             throw new TransactionTooOldException(t);
         }
 
@@ -54,7 +51,6 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Summary getSummary(Long now) {
-        log.info("get summary - now is {}, head is {}", now, now - MAX_AGE);
         return summaryRepository.mergeEntriesAfter((now - MAX_AGE)/PRECISION);
     }
 }

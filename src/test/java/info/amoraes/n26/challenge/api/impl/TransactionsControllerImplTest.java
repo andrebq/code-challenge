@@ -41,7 +41,7 @@ public class TransactionsControllerImplTest {
     @Test
     public void createTransaction() throws Exception {
         doNothing().when(transactionService).addTransaction(any(), any());
-        when(resourceURIBuilder.self()).thenReturn(new URL("http://localhost/").toURI());
+        when(resourceURIBuilder.statistics()).thenReturn(new URL("http://localhost/").toURI());
         final Long now = OffsetDateTime.now().toInstant().toEpochMilli();
 
         final Transaction input = Transaction.builder().build();
@@ -52,7 +52,7 @@ public class TransactionsControllerImplTest {
 
         verify(transactionService)
                 .addTransaction(longThat((v) -> v >= now), eq(input));
-        verify(resourceURIBuilder).self();
+        verify(resourceURIBuilder).statistics();
 
         verifyNoMoreInteractions(transactionService);
         verifyNoMoreInteractions(resourceURIBuilder);
